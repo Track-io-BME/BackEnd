@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "UserId": 1,
+        "date": "2022.10.10.",
+        "totalDuration": "1o30p15mp",
+        "workoutDuration": "1o20p15mp",
+        "steps": 0,
+        "distance": 15,
+        "averageSpeed": 20,
+        "calories": 500,
+        "elevation": 20.2,
+        "category": "cycle"
+    },
+
+    {
+        "id": 1,
+        "UserId": 1,
+        "date": "2022.10.20.",
+        "totalDuration": "1o10p15mp",
+        "workoutDuration": "1o0p15mp",
+        "steps": 0,
+        "distance": 10,
+        "averageSpeed": 30,
+        "calories": 400,
+        "elevation": 10.02,
+        "category": "cycle"
+    }
+]

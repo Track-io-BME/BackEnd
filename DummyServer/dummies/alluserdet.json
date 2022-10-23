@@ -1,0 +1,9 @@
+{
+    "id": 1,
+    "UserId": 1,
+    "height": 180,
+    "sex": "male",
+    "birthDate":  "2000.10.4",
+    "goalSteps": 10000,
+    "goalWeight": 70
+}
