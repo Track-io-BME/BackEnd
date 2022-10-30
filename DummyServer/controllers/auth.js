@@ -1,4 +1,4 @@
-const {validationResult} = require('express-validator/check')
+const {validationResult} = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
@@ -43,36 +43,41 @@ exports.Signup = (req, res, next) =>{
         }
         next(err);
     });
+}
 
 
-    exports.login = (req, res, next) =>{
+
+
+exports.login = (req, res, next) =>{
         const email = req.body.email;
         const password = req.body.password;
         let loadedUser;
 
-        users.findOne({email: email})
-            .then(user=>{
-                if(!user){
-                    const error = new Error('No such user found.');
-                    error.statusCode = 401;
-                    throw error;
-                }
-                loadedUser = user;
-                return bcrypt.compare(password, user.password);
-            })
-            .then(isEqual=>{
-                if(!isEqual){
-                    const error = new Error('Wrong password');
-                    error.statusCode = 401;
-                    throw error;
-                }
-                const token = jwt.sign({email: loadedUser.email, userId: loadedUser.ID.toString()}, 'secret', {expiresIn: '1h'});
-                res.status(200).json({token: token, userId: loadedUser.ID.toString()});
-            }).catch(err=>{
-                if(!err.statusCode){
-                    err.statusCode = 500;
-                }
-                next(err);
-            })
-    }
+         const validuser = users.find(e => e.email ==="a@gmail.com");
+
+         const token = validateuser(validuser).catch(err=>{
+            if(!err.statusCode){
+                err.statusCode = 500;
+            }
+            next(err);
+         })
+            
 }
+
+function validateuser(user){
+    if(!user){
+        const error = new Error('No such user found.');
+        error.statusCode = 401;
+        throw error;
+    }
+    loadedUser = user;
+
+    if(bcrypt.compare(password, user.password)){
+        const error = new Error('No such user found.');
+                    error.statusCode = 401;
+                    throw error;
+    }
+    const token = jwt.sign({email: loadedUser.email, userId: loadedUser.ID.toString()}, 'secret', {expiresIn: '1h'});
+    return token;
+}
+
