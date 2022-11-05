@@ -1,8 +1,7 @@
 const express = require('express');
+const challanges = require('../models/challanges');
 
 const router = express.Router();
-
-const challanges = [];
 
 router.post('/login', (req, res, next)=>{
     var name = req.body.name;
@@ -20,18 +19,22 @@ router.post('/addnewchallange', (req, res, next)=>{
     var duration = req.body.duration;
     var type = req.body.type; // 0: walk, 1: run, 2: cycle
     var startdate = req.body.startdate;
-    challanges.push({
-      "distance": distance,
-      "duration": duration,
-      "type": type,
-      "startdate": startdate
+    
+    challanges.create({
+      distance: distance,
+      category: type,
+      startdate: startdate,
+      duration: duration
     });
+
     res.status(200);
 });
 
 router.get('/challanges', (req, res, next)=>{
     res.contentType('application/json');
-    res.send(JSON.stringify(challanges));
+    const resval = challanges.findAll();
+    console.log(resval);
+    //res.send(JSON.stringify(resval));
 });
 
 module.exports = router;
