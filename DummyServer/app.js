@@ -19,7 +19,7 @@ const sportHistory = require('./models/sportHistory');
 const sportHistoryMap = require('./models/sportHistoryMap');
 const userChallanges = require('./models/userChallanges');
 const userDetail = require('./models/userDetail');
-const userWeight = require('./models/UserWeight');
+const userWeight = require('./models/userWeight');
 
 const app = express();
 const options = {

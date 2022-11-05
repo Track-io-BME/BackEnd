@@ -21,7 +21,7 @@ exports.Signup = (req, res, next) =>{
     const dateofbirth = req.body.dateofbirth
     const password = req.body.password
 
-    user.findOne({email: email})
+    user.findOne({where: {email: email}})
         .then(retuser=>{
             if(!retuser){
                 res.status(400).send("felhasznalo mar letezik")
@@ -38,8 +38,9 @@ exports.Signup = (req, res, next) =>{
                     dateofbirth: dateofbirth,
                     password: hashedpassw,
                 });
+            return user.findOne({where: {email: email}});    
             }).then(result=>{
-                res.status(201).json({message: 'User created', userId: ID});
+                res.status(201).json({message: 'User created', userId: result.id});
             }).catch(err=>{
                 if(!err.statusCode){
                     err.statusCode = 500;
@@ -56,7 +57,7 @@ exports.Signup = (req, res, next) =>{
 exports.login = (req, res, next) =>{
     const email = req.body.email;
     const password = req.body.password;
-    user.findOne({email: email})
+    user.findOne({where: {email: email}})
         .then(u =>{
             if(!u){
                 const error = new Error('No such user found.');
