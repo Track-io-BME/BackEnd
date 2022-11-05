@@ -23,17 +23,17 @@ router.post('/addnewchallange', (req, res, next)=>{
     challanges.create({
       distance: distance,
       category: type,
-      startdate: startdate,
+      startdate: new Date(startdate),
       duration: duration
     });
 
-    res.status(200);
+    res.status(200).send();
 });
 
-router.get('/challanges', (req, res, next)=>{
+router.get('/challanges', async (req, res, next)=>{
     res.contentType('application/json');
-    const resval = challanges.findAll();
-    console.log(resval);
+    const resval = await challanges.findAll();
+    console.log(JSON.stringify(resval));
     //res.send(JSON.stringify(resval));
 });
 
