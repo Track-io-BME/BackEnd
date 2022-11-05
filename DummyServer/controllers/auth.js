@@ -34,6 +34,7 @@ exports.Signup = (req, res, next) =>{
             password: hashedpassw,
             ID: ID
         });
+	console.log(users);
         return users;
     }).then(result=>{
         res.status(201).json({message: 'User created', userId: ID});
@@ -52,32 +53,27 @@ exports.login = (req, res, next) =>{
         const email = req.body.email;
         const password = req.body.password;
         let loadedUser;
-
-         const validuser = users.find(e => e.email ==="a@gmail.com");
-
-         const token = validateuser(validuser).catch(err=>{
-            if(!err.statusCode){
-                err.statusCode = 500;
-            }
-            next(err);
-         })
+	console.log(email);
+        const validuser = users.find(e => e.email === req.body.email);
+	console.log("validuser: " + validuser.firstname);
+         const token = validateuser(validuser, req.body.password);
+	res.status(200).send({"token": token, "username": validuser.email});
             
 }
 
-function validateuser(user){
+function validateuser(user, password){
     if(!user){
         const error = new Error('No such user found.');
         error.statusCode = 401;
         throw error;
     }
-    loadedUser = user;
 
-    if(bcrypt.compare(password, user.password)){
+    if(!bcrypt.compare(password, user.password)){
         const error = new Error('No such user found.');
                     error.statusCode = 401;
                     throw error;
     }
-    const token = jwt.sign({email: loadedUser.email, userId: loadedUser.ID.toString()}, 'secret', {expiresIn: '1h'});
+    const token = jwt.sign({email: user.email, userId: user.ID.toString()}, 'secret', {expiresIn: '1h'});
     return token;
 }
 
