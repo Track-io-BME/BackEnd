@@ -31,7 +31,7 @@ app.use(authRoutes);
 app.use('/userdetails', isAuth, userdetRoutes);
 app.use('/userWorkout', isAuth, userworkRoutes);
 app.use('/challanges', isAuth , challangeRoutes);
-app.use('/admin', isAuth, adminRoutes);
+app.use('/admin', adminRoutes);
 
 app.use((error, req, res, next)=>{
   console.log(error);
