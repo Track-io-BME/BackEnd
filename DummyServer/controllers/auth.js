@@ -24,7 +24,9 @@ exports.Signup = (req, res, next) =>{
     user.findOne({where: {email: email}})
         .then(retuser=>{
             if(retuser){
-                res.status(400).send("felhasznalo mar letezik")
+                const err = new Error('User already exists');
+                err.statusCode = 501;
+                return err;
             }
 
             bcrypt.hash(password ,12).then(hashedpassw=>{
@@ -38,9 +40,10 @@ exports.Signup = (req, res, next) =>{
                     dateofbirth: dateofbirth,
                     password: hashedpassw,
                 });
-            return user.findOne({where: {email: email}});    
+            var ret = user.findOne({where: {email: email}});  
+            return ret.id;  
             }).then(result=>{
-                res.status(201).json({message: 'User created', userId: result.id});
+                res.status(201).json({message: 'User created', userId: result});
             }).catch(err=>{
                 if(!err.statusCode){
                     err.statusCode = 500;
@@ -72,7 +75,7 @@ exports.login = (req, res, next) =>{
             const token = jwt.sign({email: u.email, userID: u.id.toString()}, 'secret', {expiresIn: '1h'});
             return token;
         }).then(token =>{
-            res.status(200).send({"token": token, "username": email});
+            res.status(200).send({"token": token, "email": email});
         }).catch(e =>{
             if(!e.statusCode){
                 e.statusCode = 501;
