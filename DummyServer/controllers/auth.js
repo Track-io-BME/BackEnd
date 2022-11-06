@@ -23,36 +23,36 @@ exports.Signup = (req, res, next) =>{
 
     user.findOne({where: {email: email}})
         .then(retuser=>{
-            if(retuser){
-                return 0;
+            if(retuser != 0){
+                return null;
             }
 
-            bcrypt.hash(password ,12).then(hashedpassw=>{
-                user.create({
-                    email: email,
-                    firstname: firstname,
-                    lastname: lastname,
-                    gender: gender,
-                    height: height,
-                    weight: weight,
-                    dateofbirth: dateofbirth,
-                    password: hashedpassw,
-                }); 
-            return email;  
-            }).then(result=>{
-                if(!result){ 
-                    res.status(400).send({message: 'user already exists', email: ''});
-                }else{
-                    res.status(201).json({message: 'User created', email: email});
-                }
-                
-            }).catch(err=>{
-                if(!err.statusCode){
-                    err.statusCode = 500;
-                }
-                next(err);
-            });
-
+            var email = bcrypt.hash(password ,12).then(hashedpassw=>{
+                    user.create({
+                        email: email,
+                        firstname: firstname,
+                        lastname: lastname,
+                        gender: gender,
+                        height: height,
+                        weight: weight,
+                        dateofbirth: dateofbirth,
+                        password: hashedpassw,
+                    }); 
+                    return email;  
+                });
+            return email;    
+        }).then(result=>{
+            if(!result){ 
+                res.status(400).json({message: 'User already exists', email: ''});
+            }else{
+                res.status(201).json({message: 'User created', email: email});
+            }
+            
+        }).catch(err=>{
+            if(!err.statusCode){
+                err.statusCode = 500;
+            }
+            next(err);
         });
 }
 
