@@ -23,7 +23,7 @@ exports.Signup = (req, res, next) =>{
 
     user.findOne({where: {email: email}})
         .then(retuser=>{
-            if(!retuser){
+            if(retuser){
                 res.status(400).send("felhasznalo mar letezik")
             }
 
@@ -69,7 +69,7 @@ exports.login = (req, res, next) =>{
                             error.statusCode = 401;
                             throw error;
             }
-            const token = jwt.sign({email: u.email, userID: u.ID.toString()}, 'secret', {expiresIn: '1h'});
+            const token = jwt.sign({email: u.email, userID: u.id.toString()}, 'secret', {expiresIn: '1h'});
             return token;
         }).then(token =>{
             res.status(200).send({"token": token, "username": email});
