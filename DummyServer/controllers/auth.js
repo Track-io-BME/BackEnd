@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const user = require('../models/user');
 
 
-exports.Signup = (req, res, next) =>{
+exports.Signup = async (req, res, next) =>{
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         const error = new Error('Validation failed.')
@@ -21,7 +21,7 @@ exports.Signup = (req, res, next) =>{
     const dateofbirth = req.body.dateofbirth
     const password = req.body.password
 
-    user.findOne({where: {email: email}})
+    await user.findOne({where: {email: email}})
         .then(retuser=>{
             if(retuser != null){
                 console.log("már létezik");

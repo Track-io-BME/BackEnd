@@ -33,8 +33,8 @@ router.post('/addnewchallange', (req, res, next)=>{
 router.get('/challanges', async (req, res, next)=>{
     res.contentType('application/json');
     const resval = await challanges.findAll();
-    console.log(JSON.stringify(resval));
-    //res.send(JSON.stringify(resval));
+    //console.log(JSON.stringify(resval));
+    res.send(JSON.stringify(resval));
 });
 
 module.exports = router;
