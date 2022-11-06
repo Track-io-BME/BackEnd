@@ -24,9 +24,7 @@ exports.Signup = (req, res, next) =>{
     user.findOne({where: {email: email}})
         .then(retuser=>{
             if(retuser){
-                const err = new Error('User already exists');
-                err.statusCode = 501;
-                return err;
+                return 0;
             }
 
             bcrypt.hash(password ,12).then(hashedpassw=>{
@@ -39,11 +37,15 @@ exports.Signup = (req, res, next) =>{
                     weight: weight,
                     dateofbirth: dateofbirth,
                     password: hashedpassw,
-                });
-            var ret = user.findOne({where: {email: email}});  
-            return ret.id;  
+                }); 
+            return email;  
             }).then(result=>{
-                res.status(201).json({message: 'User created', userId: result});
+                if(!result){ 
+                    res.status(400).send({message: 'user already exists', email: ''});
+                }else{
+                    res.status(201).json({message: 'User created', email: email});
+                }
+                
             }).catch(err=>{
                 if(!err.statusCode){
                     err.statusCode = 500;
