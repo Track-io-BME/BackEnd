@@ -23,24 +23,25 @@ exports.Signup = (req, res, next) =>{
 
     user.findOne({where: {email: email}})
         .then(retuser=>{
-            if(retuser != 0){
+            if(retuser != null){
+                console.log("már létezik");
                 return null;
-            }
-
-            var email = bcrypt.hash(password ,12).then(hashedpassw=>{
-                    user.create({
-                        email: email,
-                        firstname: firstname,
-                        lastname: lastname,
-                        gender: gender,
-                        height: height,
-                        weight: weight,
-                        dateofbirth: dateofbirth,
-                        password: hashedpassw,
-                    }); 
-                    return email;  
-                });
-            return email;    
+            }else{
+                console.log("még nem létezik");
+                bcrypt.hash(password ,12).then(hashedpassw=>{
+                        user.create({
+                            email: email,
+                            firstname: firstname,
+                            lastname: lastname,
+                            gender: gender,
+                            height: height,
+                            weight: weight,
+                            dateofbirth: dateofbirth,
+                            password: hashedpassw,
+                        });  
+                    });
+                return email;
+            }   
         }).then(result=>{
             if(!result){ 
                 res.status(400).json({message: 'User already exists', email: ''});
