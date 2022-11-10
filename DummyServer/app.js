@@ -1,7 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
-const https = require('https');
-const fs = require('fs');
+const http = require('http');
+//const fs = require('fs');
 const bcrypt = require('bcrypt');
 const {body} = require('express-validator');
 
@@ -22,10 +22,10 @@ const userDetail = require('./models/userDetail');
 const userWeight = require('./models/userWeight');
 
 const app = express();
-const options = {
-  key: fs.readFileSync('key.pem'),
-  cert: fs.readFileSync('cert.pem')
-}
+//const options = {
+//  key: fs.readFileSync('key.pem'),
+//  cert: fs.readFileSync('cert.pem')
+//}
 app.use(bodyParser.json());
 app.use('/', (req, res, next)=>{
   console.log("incoming request");
@@ -72,4 +72,4 @@ sequelize
     console.log(err);
   });
 
-https.createServer(options, app).listen(443);
+http.createServer(app).listen(3000);
