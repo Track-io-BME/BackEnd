@@ -35,6 +35,10 @@ router.get('/challanges', async (req, res, next)=>{
     const resval = await challanges.findAll({
       attributes: ['id', 'distance', 'sportType', 'startDate', 'duration']
     });
+
+    for(var i in resval){
+      i.startdate = 10;
+    }
     //console.log(JSON.stringify(resval));
     res.send(JSON.stringify(resval));
 });
