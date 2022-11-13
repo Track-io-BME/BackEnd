@@ -17,12 +17,12 @@ router.post('/login', (req, res, next)=>{
 router.post('/addnewchallange', (req, res, next)=>{
     var distance = req.body.distance;
     var duration = req.body.duration;
-    var category = req.body.category; // 0: walk, 1: run, 2: cycle
+    var sportType = req.body.sportType; // 0: walk, 1: run, 2: cycle
     var startdate = req.body.startdate;
     
     challanges.create({
       distance: distance,
-      category: category,
+      sportType: sportType,
       startdate: new Date(startdate),
       duration: duration
     });
@@ -33,7 +33,7 @@ router.post('/addnewchallange', (req, res, next)=>{
 router.get('/challanges', async (req, res, next)=>{
     res.contentType('application/json');
     const resval = await challanges.findAll({
-      attributes: ['id', 'distance', 'category', 'startDate', 'duration']
+      attributes: ['id', 'distance', 'sportType', 'startDate', 'duration']
     });
     //console.log(JSON.stringify(resval));
     res.send(JSON.stringify(resval));
