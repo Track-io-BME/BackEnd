@@ -17,12 +17,12 @@ router.post('/login', (req, res, next)=>{
 router.post('/addnewchallange', (req, res, next)=>{
     var distance = req.body.distance;
     var duration = req.body.duration;
-    var type = req.body.type; // 0: walk, 1: run, 2: cycle
+    var category = req.body.category; // 0: walk, 1: run, 2: cycle
     var startdate = req.body.startdate;
     
     challanges.create({
       distance: distance,
-      category: type,
+      category: category,
       startdate: new Date(startdate),
       duration: duration
     });
