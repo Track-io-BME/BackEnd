@@ -33,12 +33,12 @@ router.post('/addnewchallange', (req, res, next)=>{
 router.get('/challanges', async (req, res, next)=>{
     res.contentType('application/json');
     const resval = await challanges.findAll({
-      attributes: ['id', 'distance', 'sportType', 'startDate', 'duration']
+      attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
+      where: {
+        id: 46
+      }
     });
 
-    for(var i in resval){
-      i.startdate = 10;
-    }
     //console.log(JSON.stringify(resval));
     res.send(JSON.stringify(resval));
 });

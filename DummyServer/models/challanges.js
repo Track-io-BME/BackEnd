@@ -9,7 +9,7 @@ const challanges = sequelize.define('challanges', {
         primaryKey: true
     },
     distance: Sequelize.DataTypes.FLOAT,
-    category: Sequelize.DataTypes.INTEGER, // 0: walk, 1: run, 2: cycle
+    sportType: Sequelize.DataTypes.INTEGER, // 0: walk, 1: run, 2: cycle
     startDate: Sequelize.DataTypes.DATEONLY,
     duration: Sequelize.DataTypes.STRING
 });
