@@ -34,13 +34,23 @@ router.get('/challanges', async (req, res, next)=>{
     res.contentType('application/json');
     const resval = await challanges.findAll({
       attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
-      where: {
-        id: 46
-      }
     });
 
     //console.log(JSON.stringify(resval));
     res.send(JSON.stringify(resval));
+});
+
+router.get('/challange', async (req, res, next)=>{
+  res.contentType('application/json');
+  const resval = await challanges.findAll({
+    attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
+    where: {
+      id: 46
+    }
+  });
+
+  //console.log(JSON.stringify(resval));
+  res.send(JSON.stringify(resval));
 });
 
 module.exports = router;
