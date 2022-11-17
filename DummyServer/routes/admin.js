@@ -1,4 +1,5 @@
 const express = require('express');
+const isAuth = require('../middleware/is-auth');
 const challanges = require('../models/challanges');
 
 const router = express.Router();
@@ -40,7 +41,7 @@ router.get('/challanges', async (req, res, next)=>{
     res.send(JSON.stringify(resval));
 });
 
-router.get('/challange', async (req, res, next)=>{
+router.get('/challange',isAuth, async (req, res, next)=>{
   res.contentType('application/json');
   const resval = await challanges.findAll({
     attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
@@ -51,6 +52,13 @@ router.get('/challange', async (req, res, next)=>{
 
   //console.log(JSON.stringify(resval));
   res.send(JSON.stringify(resval));
+  res.json({
+    "id": 46,
+    "distance": 1000,
+    "sportType": 0,
+    "startdate": "2022-11-11",
+    "duration": 2013212
+  })
 });
 
 module.exports = router;
