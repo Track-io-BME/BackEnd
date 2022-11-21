@@ -9,9 +9,9 @@ const challanges = sequelize.define('challanges', {
         primaryKey: true
     },
     distance: Sequelize.DataTypes.FLOAT,
-    sportType: Sequelize.DataTypes.INTEGER, // 0: walk, 1: run, 2: cycle
-    startDate: Sequelize.DataTypes.DATEONLY,
-    duration: Sequelize.DataTypes.STRING
+    sportType: Sequelize.DataTypes.STRING, // 0: walk, 1: run, 2: cycle
+    startDate: Sequelize.DataTypes.DATE,
+    endDate: Sequelize.DataTypes.DATE
 });
 
 module.exports = challanges;

@@ -14,8 +14,11 @@ const user = sequelize.define('user', {
     email: {
         allowNull: false,
         type: Sequelize.DataTypes.STRING
+    },
+    isAdmin: {
+        type: Sequelize.DataTypes.BOOLEAN,
+        defaultValue: false
     }
-
 });
 
 module.exports = user;

@@ -1,8 +1,10 @@
 const jwt = require('jsonwebtoken');
+const Users = require('../models/user');
 
 
-module.exports = (req, res, next)=>{
+module.exports = async (req, res, next)=>{
     const authHeader = req.get('Authorization');
+
     if(!authHeader){
         const err = new Error('Not authenticated');
         err.statusCode = 401;
@@ -21,6 +23,18 @@ module.exports = (req, res, next)=>{
         error.statusCode = 401;
         throw error;
     }
-    req.userId = decodedToken.userId;
+    //req.userId = decodedToken.userId;
+
+    Users.findById(req.userId)
+      .then(user => {
+        req.user = user;
+      })
+      .catch(err => {
+        const error = new Error('No such user found');
+        error.statusCode = 401;
+        throw error;
+      });
+
     next();
 }
+
