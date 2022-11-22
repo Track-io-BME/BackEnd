@@ -58,33 +58,41 @@ exports.Signup = async (req, res, next) =>{
 }
 
 
-
-
-exports.login = (req, res, next) =>{
+exports.login = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
-    user.findOne({where: {email: email}})
-        .then(u =>{
-            if(!u){
-                const error = new Error('No such user found.');
-                error.statusCode = 401;
-                throw error;
-            }
-            if(!bcrypt.compare(password, u.password)){
-                const error = new Error('No such user found.');
-                            error.statusCode = 401;
-                            throw error;
-            }
-            const token = jwt.sign({email: u.email, userID: u.id.toString()}, 'secret', {expiresIn: '1h'});
-            return token;
-        }).then(token =>{
-            res.status(200).send({"token": token, "email": email});
-        }).catch(e =>{
-            if(!e.statusCode){
-                e.statusCode = 501;
-            }
-            next(e);
-        })
-            
-}
+    let loadedUser;
+    user.findOne({where: { email: email }})
+      .then(u => {
+        if (!u) {
+          const error = new Error('A user with this email could not be found.');
+          error.statusCode = 401;
+          throw error;
+        }
+        loadedUser = u;
+        return bcrypt.compare(password, u.password);
+      })
+      .then(isEqual => {
+        if (!isEqual) {
+          const error = new Error('Wrong password!');
+          error.statusCode = 401;
+          throw error;
+        }
+        const token = jwt.sign(
+          {
+            email: loadedUser.email,
+            userID: loadedUser.id.toString()
+          },
+          'secret',
+          { expiresIn: '1h' }
+        );
+        res.status(200).json({"token": token, "email": loadedUser.email});
+      })
+      .catch(err => {
+        if (!err.statusCode) {
+          err.statusCode = 500;
+        }
+        next(err);
+      });
+  };
 

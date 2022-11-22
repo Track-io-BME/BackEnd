@@ -9,6 +9,6 @@ router.post('/addnewchallange', adminCont.AddNewChallanges);
 
 router.get('/challanges', adminCont.Challanges);
 
-router.get('/challange', isAuth, adminCont.Challange);
+router.get('/challange', adminCont.Challange);
 
 module.exports = router;

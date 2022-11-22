@@ -12,7 +12,7 @@ router.get('/walkingHistory/all', userWorkoutCont.WalkingHistoryAll);
 router.get('/cyclingHistory/lastweek', userWorkoutCont.CyclingHistoryLastWeek);
 router.get('/cyclingHistory/lastmonth', userWorkoutCont.CyclingHistoryLastMonth);
 router.get('/cyclingHistory/all', userWorkoutCont.CyclingHistoryAll);
-router.post('/finishtraining', userWorkoutCont.finishtraining);
+router.post('/finishTraining', userWorkoutCont.finishtraining);
 router.get('/:mapforHistory', );
 
 

@@ -23,17 +23,15 @@ module.exports = async (req, res, next)=>{
         error.statusCode = 401;
         throw error;
     }
-    //req.userId = decodedToken.userId;
+    const id = decodedToken.userID;
+    
+    req.user = await Users.findOne({
+        where:{
+            id: id
+        }
+    })
 
-    Users.findById(req.userId)
-      .then(user => {
-        req.user = user;
-      })
-      .catch(err => {
-        const error = new Error('No such user found');
-        error.statusCode = 401;
-        throw error;
-      });
+    console.log(req.user);
 
     next();
 }
