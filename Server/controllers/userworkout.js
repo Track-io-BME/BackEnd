@@ -1,6 +1,6 @@
 const SportHistory = require('../models/sportHistory');
-const Challanges = require('../models/challanges');
-const UserChallanges = require('../models/userChallanges');
+const Challenges = require('../models/challenges');
+const UserChallenges = require('../models/userChallenges');
 const { Op } = require("sequelize");
 
 
@@ -102,7 +102,7 @@ exports.finishtraining = async (req, res, next)=>{
         userId: req.user.id
     })
 
-    const currentChallanges = await Challanges.findAll({where:{
+    const currentChallenges = await Challenges.findAll({where:{
         [Op.and]:{
             startDate: {
                 [Op.lt]: Date.now()
@@ -113,8 +113,8 @@ exports.finishtraining = async (req, res, next)=>{
         }
     }});
 
-    console.log("currentchallanges: ");
-    console.log(currentChallanges);
+    console.log("currentchallenges: ");
+    console.log(currentChallenges);
 
     var lastDaysDistance =  await historyLastxTime(req.user.id, sportType, 1)
                                 .then(val => {
@@ -140,10 +140,24 @@ exports.finishtraining = async (req, res, next)=>{
                                         e += i.distance;
                                     }
                                     return e;
-                                });
+    });
 
-    //const completedChallanges = 
-   
+    console.log("curr challenges: ");
+    console.log(currentChallenges);
+    var completedChallenges;                    
+    for(let i of currentChallenges){
+        if(i.duration === "WEEKLY"){
+            if(lastWeeksDistance > i.distance){
+                completedChallenges += i;
+            }
+        }else{
+            if(lastDaysDistance > i.distance){
+                completedChallenges += i;
+            }
+        }
+    }
+    
+    console.log("completed ")
 
     res.send("OK");
 }
