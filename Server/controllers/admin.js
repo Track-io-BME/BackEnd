@@ -80,23 +80,13 @@ exports.DeleteChallenge = async (req, res, next) => {
   .then(val => {
     challenges.destroy({where: { id : deleteID }})
       .then(num => {
-        res.send(JSON.stringify(val));
+        res.send(JSON.stringify({
+          distance: val.distance,
+          sportType: val.sportType,
+          startDate: val.startDate.getTime(),
+          duration: val.duration
+        }));
       });
   })
     
-}
-
-
-async function q(){
-  const deletedChallenge = await challenges.destroy({
-      where: {
-        id: deleteID
-      }
-  }).catch(err => {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    err.message = "Can't delete challenge";
-    next(err);
-  });
 }
