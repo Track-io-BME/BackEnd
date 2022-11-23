@@ -142,8 +142,7 @@ exports.finishtraining = async (req, res, next)=>{
                                     return e;
                                 });
 
-    console.log("lastDaysDistance: ");
-    console.log(lastDaysDistance);
+    //const completedChallanges = 
    
 
     res.send("OK");

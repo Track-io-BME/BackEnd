@@ -69,7 +69,6 @@ exports.AddNewChallanges = async (req, res, next) =>{
       distance: distance,
       sportType: sportType,
       startDate: startdate,
-      endDate: ENDDATE,
       duration: duration
     }));
 }
