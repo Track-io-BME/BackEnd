@@ -1,4 +1,5 @@
 const challenges = require('../models/challenges');
+const users = require('../models/user');
 
 exports.Challenges = async (req, res, next) =>{
     res.contentType('application/json');
@@ -98,4 +99,25 @@ exports.DeleteChallenge = async (req, res, next) => {
     next(err);
   })
     
+}
+
+exports.adminLogin = async (req, res, next) => {
+  const email = req.body.email;
+
+  users.findOne({where: {email: email}})
+    .then(u => {
+      console.log("isadmin?: " + u.isAdmin)
+      if(u.isAdmin === true) {
+        next();
+      }else{
+        const error = new Error("Not admin account.");
+        error.statusCode = 403;
+        throw error;
+      }
+    }).catch(err => {
+      if(!err.statusCode){
+        err.statusCode = 500;
+      }
+      next(err);
+    })
 }
