@@ -65,5 +65,11 @@ exports.AddNewChallanges = async (req, res, next) =>{
       duration: duration
     });
 
-    res.status(200).send();
+    res.status(200).send(JSON.stringify({
+      distance: distance,
+      sportType: sportType,
+      startDate: startdate,
+      endDate: ENDDATE,
+      duration: duration
+    }));
 }
