@@ -87,6 +87,7 @@ userDetail.belongsTo(user);
 userDetail.hasOne(userWeight);
 userWeight.belongsTo(userDetail);
 
+//
 
 sequelize
   .sync()
