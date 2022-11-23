@@ -109,7 +109,8 @@ exports.finishtraining = async (req, res, next)=>{
             endDate: {
                 [Op.gt]: Date.now()
             },
-            isActive: true
+            isActive: true,
+            sportType: sportType
         }
     }});
 
@@ -118,30 +119,26 @@ exports.finishtraining = async (req, res, next)=>{
 
     var lastDaysDistance =  await historyLastxTime(req.user.id, sportType, 1)
                                 .then(val => {
-                                    console.log("length: " + val.length);
                                     if(val.length === 0) return null;
-                                    console.log("val.length: " + val.length);
                                     var e = 0;
                                     for(let i of val){
-                                        console.log("dist of curr training: " + i.distance);
                                         e += i.distance;
                                     }
                                     return e;
-                                });
+    });
                             
     var lastWeeksDistance =  await historyLastxTime(req.user.id, sportType, 7)
                                 .then(val => {
-                                    console.log("length: " + val.length);
                                     if(val.length === 0) return null;
-                                    console.log("val.length: " + val.length);
                                     var e = 0;
                                     for(let i of val){
-                                        console.log("dist of curr training: " + i.distance);
                                         e += i.distance;
                                     }
                                     return e;
     });
 
+    console.log("lastweeksDistance: " + lastWeeksDistance);
+    console.log("lastDaysDistance: " + lastDaysDistance);
     console.log("curr challenges ("+ currentChallenges.length +"): ");
     console.log(currentChallenges);
     const completedChallenges = [];                   

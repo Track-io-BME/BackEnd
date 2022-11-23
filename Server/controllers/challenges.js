@@ -55,8 +55,18 @@ exports.getCompletedChallenges = async (req, res, next)=>{
         where: {
             userId: userID
         }
-    }).then(v => {
-        res.send(JSON.stringify(v));
+    }).then(i => {
+        const retval = [];
+        for(let item of i){
+            retval.push({
+                id: item.id,
+                distance: item.distance,
+                sportType: item.sportType,
+                startDate: item.startDate.getTime(),
+                duration: item.duration
+            });
+        }
+        res.send(JSON.stringify(retval));
     });
 
 }

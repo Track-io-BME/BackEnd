@@ -118,7 +118,6 @@ exports.adminLogin = async (req, res, next) => {
 
   users.findOne({where: {email: email}})
     .then(u => {
-      console.log("isadmin?: " + u.isAdmin)
       if(u.isAdmin === true) {
         next();
       }else{
