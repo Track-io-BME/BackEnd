@@ -9,4 +9,7 @@ router.get('/running/weekly', challengesCont.RunningWeekly);
 router.get('/cycling/daily', challengesCont.CyclingDaily);
 router.get('/cycling/weekly', challengesCont.CyclingWeekly);
 
+router.get('/getActiveChallenges', challengesCont.getActiveChallenges);
+router.get('/getCompletedChallenges', challengesCont.getCompletedChallenges);
+
 module.exports = router;

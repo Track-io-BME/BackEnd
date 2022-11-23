@@ -11,7 +11,6 @@ const userdetRoutes = require('./routes/userdetails');
 const userworkRoutes = require('./routes/userworkout');
 const authRoutes = require('./routes/auth');
 const isAuth = require('./middleware/is-auth');
-const isAdmin = require('./middleware/is-admin');
 const sequelize = require('./util/database');
 const user = require('./models/user');
 const dailyHistory = require('./models/dailyHistory');
@@ -61,7 +60,7 @@ function q(){
 app.use(authRoutes);
 app.use('/userDetails', isAuth, userdetRoutes);
 app.use('/userWorkout', isAuth, userworkRoutes);
-app.use('/challenges', isAuth , challengeRoutes);
+app.use('/challenges', isAuth, challengeRoutes);
 app.use('/admin', adminRoutes);
 
 app.use((error, req, res, next)=>{

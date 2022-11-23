@@ -12,6 +12,8 @@ exports.Challenges = async (req, res, next) =>{
     
     const retarr = [];
     resval.forEach(element => {
+      console.log('element');
+      console.log(element)
       retarr.push({
         id: element.id,
         distance: element.distance,
@@ -82,7 +84,7 @@ exports.AddNewChallenges = async (req, res, next) =>{
 exports.DeleteChallenge = async (req, res, next) => {
   const deleteID = req.body.id;
 
-  const updatedRow = await challenges.update(
+  challenges.update(
     {
       isActive: false
     },
@@ -91,21 +93,23 @@ exports.DeleteChallenge = async (req, res, next) => {
         id: deleteID
       }
     }
-  )
-  .catch(err => {
+  ).then(updatedRow => {
+    challenges.findByPk(deleteID)
+      .then(item => {
+        res.send(JSON.stringify({
+          id: item.id,
+          distance: item.distance,
+          sportType: item.sportType,
+          startDate: item.startDate.getTime(),
+          duration: item.duration
+        }));
+      });
+  }).catch(err => {
     if(!err.statusCode){
       err.statusCode = 500;
     }
     next(err);
-  })
-
-  res.send(JSON.stringify({
-    id: updatedRow.id,
-    distance: updatedRow.distance,
-    sportType: updatedRow.sportType,
-    startDate: updatedRow.startDate.getTime(),
-    duration: updatedRow.duration
-  }));
+  });
 
 }
 
