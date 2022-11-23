@@ -72,3 +72,31 @@ exports.AddNewChallenges = async (req, res, next) =>{
       duration: duration
     }));
 }
+
+exports.DeleteChallenge = async (req, res, next) => {
+  const deleteID = req.body.id;
+
+  challenges.findOne({attributes: ['id', 'distance', 'sportType', 'startDate', 'duration']})
+  .then(val => {
+    challenges.destroy({where: { id : deleteID }})
+      .then(num => {
+        res.send(JSON.stringify(val));
+      });
+  })
+    
+}
+
+
+async function q(){
+  const deletedChallenge = await challenges.destroy({
+      where: {
+        id: deleteID
+      }
+  }).catch(err => {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    err.message = "Can't delete challenge";
+    next(err);
+  });
+}

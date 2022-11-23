@@ -10,4 +10,6 @@ router.get('/challenges', adminCont.Challenges);
 
 router.get('/challenge', adminCont.Challenge);
 
+router.post('/deletechallenge', adminCont.DeleteChallenge);
+
 module.exports = router;
