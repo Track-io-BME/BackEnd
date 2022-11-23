@@ -44,11 +44,11 @@ exports.AddNewChallanges = async (req, res, next) =>{
     var distance = req.body.distance;
     var duration = req.body.duration;
     var sportType = req.body.sportType; // 0: walk, 1: run, 2: cycle
-    var startdate = new Date(req.body.startDate);
-    startdate.setHours(0);
-    startdate.setMinutes(0);
-    startdate.setSeconds(0);
-    startdate.setMilliseconds(0);
+    var startDate = new Date(req.body.startDate);
+    startDate.setHours(0);
+    startDate.setMinutes(0);
+    startDate.setSeconds(0);
+    startDate.setMilliseconds(0);
 
     var ENDDATE;
     if(duration === "DAILY"){
@@ -60,7 +60,7 @@ exports.AddNewChallanges = async (req, res, next) =>{
     challanges.create({
       distance: distance,
       sportType: sportType,
-      startDate: startdate,
+      startDate: startDate,
       endDate: ENDDATE,
       duration: duration
     });
@@ -68,7 +68,7 @@ exports.AddNewChallanges = async (req, res, next) =>{
     res.status(200).send(JSON.stringify({
       distance: distance,
       sportType: sportType,
-      startDate: startdate,
+      startDate: startDate,
       duration: duration
     }));
 }
