@@ -57,7 +57,7 @@ exports.AddNewChallenges = async (req, res, next) =>{
       ENDDATE = new Date(startDate.getTime() + 7 * 24 * 3600000);
     }
     
-    challenges.create({
+    const newch = await challenges.create({
       distance: distance,
       sportType: sportType,
       startDate: startDate,
@@ -65,11 +65,13 @@ exports.AddNewChallenges = async (req, res, next) =>{
       duration: duration
     });
 
+
     res.status(200).send(JSON.stringify({
-      distance: distance,
-      sportType: sportType,
-      startDate: startDate,
-      duration: duration
+      id: newch.id,
+      distance: newch.distance,
+      sportType: newch.sportType,
+      startDate: newch.startDate.getTime(),
+      duration: newch.duration
     }));
 }
 
@@ -81,6 +83,7 @@ exports.DeleteChallenge = async (req, res, next) => {
     challenges.destroy({where: { id : deleteID }})
       .then(num => {
         res.send(JSON.stringify({
+          id: val.id,
           distance: val.distance,
           sportType: val.sportType,
           startDate: val.startDate.getTime(),
