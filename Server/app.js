@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const {body} = require('express-validator');
 
 const adminRoutes = require('./routes/admin');
-const challangeRoutes = require('./routes/challanges');
+const challengeRoutes = require('./routes/challenges');
 const userdetRoutes = require('./routes/userdetails');
 const userworkRoutes = require('./routes/userworkout');
 const authRoutes = require('./routes/auth');
@@ -15,10 +15,10 @@ const isAdmin = require('./middleware/is-admin');
 const sequelize = require('./util/database');
 const user = require('./models/user');
 const dailyHistory = require('./models/dailyHistory');
-const challanges = require('./models/challanges');
+const challenges = require('./models/challenges');
 const sportHistory = require('./models/sportHistory');
 const sportHistoryMap = require('./models/sportHistoryMap');
-const userChallanges = require('./models/userChallanges');
+const userChallenges = require('./models/userChallenges');
 const userDetail = require('./models/userDetail');
 const userWeight = require('./models/userWeight');
 
@@ -53,14 +53,14 @@ app.use('/test/dates', async (req,res,next)=>{
 });
 
 function q(){
-  return challanges.findAll();
+  return challenges.findAll();
 }
 
 
 app.use(authRoutes);
 app.use('/userDetails', isAuth, userdetRoutes);
 app.use('/userWorkout', isAuth, userworkRoutes);
-app.use('/challanges', isAuth , challangeRoutes);
+app.use('/challenges', isAuth , challengeRoutes);
 app.use('/admin', isAuth, isAdmin, adminRoutes);
 
 app.use((error, req, res, next)=>{
@@ -77,10 +77,10 @@ user.hasMany(sportHistory);
 sportHistory.belongsTo(user);
 sportHistory.hasOne(sportHistoryMap);
 sportHistoryMap.belongsTo(sportHistory);
-user.hasMany(userChallanges);
-userChallanges.belongsTo(user);
-challanges.hasOne(userChallanges);
-userChallanges.belongsTo(challanges);
+user.hasMany(userChallenges);
+userChallenges.belongsTo(user);
+challenges.hasOne(userChallenges);
+userChallenges.belongsTo(challenges);
 user.hasOne(userDetail);
 userDetail.belongsTo(user);
 userDetail.hasOne(userWeight);

@@ -1,8 +1,8 @@
-const challanges = require('../models/challanges');
+const challenges = require('../models/challenges');
 
-exports.Challanges = async (req, res, next) =>{
+exports.Challenges = async (req, res, next) =>{
     res.contentType('application/json');
-    const resval = await challanges.findAll({
+    const resval = await challenges.findAll({
       attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
     })
     
@@ -20,9 +20,9 @@ exports.Challanges = async (req, res, next) =>{
     res.send(JSON.stringify(retarr));
 }
 
-exports.Challange = async (req, res, next) =>{
+exports.Challenge = async (req, res, next) =>{
     res.contentType('application/json');
-    const resval = await challanges.findAll({
+    const resval = await challenges.findAll({
     attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
     where: {
       id: 46
@@ -40,7 +40,7 @@ exports.Challange = async (req, res, next) =>{
   })
 }
 
-exports.AddNewChallanges = async (req, res, next) =>{
+exports.AddNewChallenges = async (req, res, next) =>{
     var distance = req.body.distance;
     var duration = req.body.duration;
     var sportType = req.body.sportType; // 0: walk, 1: run, 2: cycle
@@ -57,7 +57,7 @@ exports.AddNewChallanges = async (req, res, next) =>{
       ENDDATE = new Date(startDate.getTime() + 7 * 24 * 3600000);
     }
     
-    challanges.create({
+    challenges.create({
       distance: distance,
       sportType: sportType,
       startDate: startDate,

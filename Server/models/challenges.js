@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../util/database');
 
-const challanges = sequelize.define('challanges', {
+const challenges = sequelize.define('challanges', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
         autoIncrement: true,
@@ -15,4 +15,4 @@ const challanges = sequelize.define('challanges', {
     duration: Sequelize.DataTypes.STRING
 });
 
-module.exports = challanges;
+module.exports = challenges;

@@ -1,14 +1,13 @@
 const express = require('express');
-const isAuth = require('../middleware/is-auth');
-const challanges = require('../models/challanges');
+const challenges = require('../models/challenges');
 const adminCont = require('../controllers/admin');
 
 const router = express.Router();
 
-router.post('/addnewchallange', adminCont.AddNewChallanges);
+router.post('/addnewchallenge', adminCont.AddNewChallenges);
 
-router.get('/challanges', adminCont.Challanges);
+router.get('/challenges', adminCont.Challenges);
 
-router.get('/challange', adminCont.Challange);
+router.get('/challenge', adminCont.Challenge);
 
 module.exports = router;
