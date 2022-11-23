@@ -34,22 +34,31 @@ app.use('/', (req, res, next)=>{
 });
 
 app.use('/test/dates', async (req,res,next)=>{
-  var date = new Date(req.body.DATE)
-  date.setHours(0);
-  date.setMinutes(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-  var date1 = new Date(date.getTime() + 24 * 3600000);
-  var date2 = new Date(date.getTime() - 1);
-  console.log(date.toString());
-  console.log(Date.now());
-  console.log(date1.toString());
-  console.log(date2.toString());
-  res.send("OK");
+  //var date = new Date(req.body.DATE)
+  //const val = await sportHistory.findAll({where: {id: 0}});
+  //console.log(val.length);
+  //date.setHours(0);
+  //date.setMinutes(0);
+  //date.setSeconds(0);
+  console.log("function: ")
+  q().then(v => { res.send("length: " + v.length); });
+  //date.setMilliseconds(0);
+  //var date1 = new Date(date.getTime() + 24 * 3600000);
+  //var date2 = new Date(date.getTime() - 1);
+  //console.log(date.toString());
+  //console.log(Date.now());
+  //console.log(date1.toString());
+  //console.log(date2.toString());
+  //res.send("OK");
 });
 
+function q(){
+  return challanges.findAll();
+}
+
+
 app.use(authRoutes);
-app.use('/userdetails', isAuth, userdetRoutes);
+app.use('/userDetails', isAuth, userdetRoutes);
 app.use('/userWorkout', isAuth, userworkRoutes);
 app.use('/challanges', isAuth , challangeRoutes);
 app.use('/admin', isAuth, isAdmin, adminRoutes);

@@ -25,22 +25,22 @@ module.exports = async (req, res, next)=>{
             error.statusCode = 401;
             throw error;
         }
+
+        const id = decodedToken.userID;
+    
+        req.user = await Users.findOne({
+            where:{
+                id: id
+            }
+        })
+
+        next();
     } catch (error) {
-        next(error)
+        if (!error.statusCode) {
+            error.statusCode = 500;
+        }
+        next(error);
     }
     
-
-
-    const id = decodedToken.userID;
-    
-    req.user = await Users.findOne({
-        where:{
-            id: id
-        }
-    })
-
-    console.log(req.user);
-
-    next();
 }
 

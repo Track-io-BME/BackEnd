@@ -22,7 +22,7 @@ exports.Challanges = async (req, res, next) =>{
 
 exports.Challange = async (req, res, next) =>{
     res.contentType('application/json');
-  const resval = await challanges.findAll({
+    const resval = await challanges.findAll({
     attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
     where: {
       id: 46

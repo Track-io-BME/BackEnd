@@ -9,53 +9,80 @@ exports.top3 = (req, res, next)=>{
 }
 
 exports.RunningHistoryAll = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "RUNNING");
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "RUNNING")
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.RunningHistoryLastWeek = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "RUNNING", 7);
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "RUNNING", 7)
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.RunningHistoryLastMonth = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "RUNNING", 30);
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "RUNNING", 30)
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.WalkingHistoryAll = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "WALKING");
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "WALKING")
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        })
 }
 
-exports.WalkingHistoryLastWeek = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "WALKING", 7);
-    res.status(200).send(JSON.stringify(retval));
+exports.WalkingHistoryLastWeek = async (req, res, next)=>{
+    historyLastxTime(req.user.id, "WALKING", 7)
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        })
 }
 
 exports.WalkingHistoryLastMonth = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "WALKING", 30);
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "WALKING", 30)
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.CyclingHistoryAll = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "CYCLING");
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "CYCLING")
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.CyclingHistoryLastWeek = (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "CYCLING", 7);
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "CYCLING", 7)
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.CyclingHistoryLastMonth = async (req, res, next)=>{
-    const retval = historyLastxTime(req.userId, "CYCLING", 30);
-    res.status(200).send(JSON.stringify(retval));
+    historyLastxTime(req.user.id, "CYCLING", 30)
+        .then(retval => {
+            console.log("arrived back");
+            res.status(200).send(JSON.stringify(retval));
+        });
 }
 
 exports.finishtraining = async (req, res, next)=>{
     const date = new Date(req.body.date);
-    const totalDuration = req.body.totalDuration
+    const totalDuration = req.body.totalduration
     const steps = req.body.steps;
     const distance = req.body.distance;
     const averageSpeed = req.body.averageSpeed;
@@ -65,92 +92,61 @@ exports.finishtraining = async (req, res, next)=>{
 
     SportHistory.create({
         date: date,
-        totalDuration: totalDuration,
+        totalduration: totalDuration,
         steps: steps,
         distance: distance,
         averageSpeed: averageSpeed,
         calories: calories,
         elevation: elevation,
         sportType: sportType,
-        userId: req.userId
+        userId: req.user.id
     })
 
-    const resultsLastWeek = historyLastxTime(req.userId, sportType, 7);
-    const resultsLastDay = historyLastxTime(req.userId, sportType, 1);
-
-    var distanceLastDay;
-    var distanceLastWeek;
-
-    if(resultsLastWeek != null){
-            resultsLastWeek.forEach(element => {
-            distanceLastWeek += element.distance;
-        });
-    }
-
-    if(resultsLastDay != null){
-        resultsLastDay.forEach(element => {
-            distanceLastDay += element.distance;
-        });
-    }
-    
-    const completedChallanges = [];
-    if(distanceLastDay || distanceLastWeek){
-        const probablechallanges = await Challanges.findAll({
-            where: {
-                [Op.and]: {
-                    startDate: {
-                        [Op.lt]: Date.now()
-                    },
-                    endDate: {
-                        [Op.gt]: Date.now()
-                    }
-                }
+    const currentChallanges = await Challanges.findAll({where:{
+        [Op.and]:{
+            startDate: {
+                [Op.lt]: Date.now()
+            },
+            endDate: {
+                [Op.gt]: Date.now()
             }
-        })
+        }
+    }});
 
-        probablechallanges.forEach(element => {
-            if(element.duration === "WEEKLY" && resultsLastWeek != null){
-                if(element.distance <= distanceLastWeek){
-                    completedChallanges.push({
-                        id: element.id,
-                        sportType: element.sportType,
-                        startDate: element.startDate.getTime(),
-                        duration: element.duration,
-                        distance: element.distance
-                    })
-                }
-            }else{
-                if(element.distance <= distanceLastDay && resultsLastDay != null){
-                    completedChallanges.push({
-                        id: element.id,
-                        sportType: element.sportType,
-                        startDate: element.startDate.getTime(),
-                        duration: element.duration,
-                        distance: element.distance
-                    })
-                }
-            }
-        });
-    }
-    
+    console.log("currentchallanges: ");
+    console.log(currentChallanges);
 
-    
+    var lastDaysDistance =  await historyLastxTime(req.user.id, sportType, 1)
+                                .then(val => {
+                                    console.log("length: " + val.length);
+                                    if(val.length === 0) return null;
+                                    console.log("val.length: " + val.length);
+                                    var e = 0;
+                                    for(let i of val){
+                                        console.log("dist of curr training: " + i.distance);
+                                        e += i.distance;
+                                    }
+                                    return e;
+                                });
 
-    completedChallanges.forEach(element => {
-        UserChallanges.create({
-            userId: req.user.id,
-            challangeId: element.id
-        })
-    });
+    console.log("lastDaysDistance: ");
+    console.log(lastDaysDistance);
+   
 
-    res.status(200).send(JSON.stringify(completedChallanges));
+    res.send("OK");
 }
 
-async function historyLastxTime(id, sportsCategory, time = null) {
+
+
+
+
+function historyLastxTime(id, sportsCategory, time = null) {
+    console.log("func beginning");
     if(time !== null){
+        console.log("func in time is not null");
         var gtTime = new Date();
         gtTime.setDate(gtTime.getDate() - time);
-        const retval = await SportHistory.findAll({
+        return SportHistory.findAll({
             attributes: ['date', 'totalduration', 'steps', 'distance', 'averageSpeed', 'calories', 'elevation', 'SportType'],
             where : {
                 userId: id,
@@ -163,7 +159,7 @@ async function historyLastxTime(id, sportsCategory, time = null) {
             }
         });
     }else{
-        const retval = await SportHistory.findAll({
+        return SportHistory.findAll({
             attributes: ['date', 'totalduration', 'steps', 'distance', 'averageSpeed', 'calories', 'elevation', 'SportType'],
             where : {
                 userId: id,
@@ -173,7 +169,4 @@ async function historyLastxTime(id, sportsCategory, time = null) {
             }
         });
     }
-
-
-    return retval;
 }

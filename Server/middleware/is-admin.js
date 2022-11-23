@@ -7,6 +7,9 @@ module.exports = async (req, res, next)=>{
             err.statusCode = 401;
             throw err;
         }
+
+        next();
+
     } catch (error) {
         if (!error.statusCode) {
             error.statusCode = 500;
@@ -14,6 +17,4 @@ module.exports = async (req, res, next)=>{
           next(error);
     }
     
-
-    next();
 }
