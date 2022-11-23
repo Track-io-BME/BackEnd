@@ -40,8 +40,9 @@ app.use('/test/dates', async (req,res,next)=>{
   //date.setHours(0);
   //date.setMinutes(0);
   //date.setSeconds(0);
-  console.log("function: ")
-  q().then(v => { res.send("length: " + v.length); });
+  //console.log("function: ")
+  console.log(Date.now());
+  //q().then(v => { res.send("length: " + v.length); });
   //date.setMilliseconds(0);
   //var date1 = new Date(date.getTime() + 24 * 3600000);
   //var date2 = new Date(date.getTime() - 1);

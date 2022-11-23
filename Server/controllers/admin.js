@@ -5,6 +5,9 @@ exports.Challenges = async (req, res, next) =>{
     res.contentType('application/json');
     const resval = await challenges.findAll({
       attributes: ['id', 'distance', 'sportType', 'startDate', 'duration'],
+      where :{
+        isActive: true
+      }
     })
     
     const retarr = [];
@@ -79,26 +82,31 @@ exports.AddNewChallenges = async (req, res, next) =>{
 exports.DeleteChallenge = async (req, res, next) => {
   const deleteID = req.body.id;
 
-  challenges.findByPk(deleteID)
-  .then(val => {
-    challenges.destroy({where: { id : val.id }})
-      .then(num => {
-        res.send(JSON.stringify({
-          id: val.id,
-          distance: val.distance,
-          sportType: val.sportType,
-          startDate: val.startDate.getTime(),
-          duration: val.duration
-        }));
-      });
-  }).catch(err => {
-    if (!err.statusCode) {
+  const updatedRow = await challenges.update(
+    {
+      isActive: false
+    },
+    {
+      where: {
+        id: deleteID
+      }
+    }
+  )
+  .catch(err => {
+    if(!err.statusCode){
       err.statusCode = 500;
     }
-    err.message = "Challenge was not found.";
     next(err);
   })
-    
+
+  res.send(JSON.stringify({
+    id: updatedRow.id,
+    distance: updatedRow.distance,
+    sportType: updatedRow.sportType,
+    startDate: updatedRow.startDate.getTime(),
+    duration: updatedRow.duration
+  }));
+
 }
 
 exports.adminLogin = async (req, res, next) => {
@@ -120,4 +128,29 @@ exports.adminLogin = async (req, res, next) => {
       }
       next(err);
     })
+}
+
+
+async function temp(){
+  const deleteID = req.body.id;
+
+  challenges.findByPk(deleteID)
+  .then(val => {
+    challenges.destroy({where: { id : val.id }})
+      .then(num => {
+        res.send(JSON.stringify({
+          id: val.id,
+          distance: val.distance,
+          sportType: val.sportType,
+          startDate: val.startDate.getTime(),
+          duration: val.duration
+        }));
+      });
+  }).catch(err => {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    err.message = "Challenge was not found.";
+    next(err);
+  })
 }

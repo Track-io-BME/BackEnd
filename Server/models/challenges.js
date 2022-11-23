@@ -12,7 +12,11 @@ const challenges = sequelize.define('challanges', {
     sportType: Sequelize.DataTypes.STRING, // 0: walk, 1: run, 2: cycle
     startDate: Sequelize.DataTypes.DATE,
     endDate: Sequelize.DataTypes.DATE,
-    duration: Sequelize.DataTypes.STRING
+    duration: Sequelize.DataTypes.STRING,
+    isActive: {
+        type: Sequelize.DataTypes.BOOLEAN,
+        defaultValue: true
+    }
 });
 
 module.exports = challenges;

@@ -3,7 +3,6 @@ const Challenges = require('../models/challenges');
 const UserChallenges = require('../models/userChallenges');
 const { Op } = require("sequelize");
 
-
 exports.top3 = (req, res, next)=>{
     
 }
@@ -109,7 +108,8 @@ exports.finishtraining = async (req, res, next)=>{
             },
             endDate: {
                 [Op.gt]: Date.now()
-            }
+            },
+            isActive: true
         }
     }});
 
@@ -142,29 +142,34 @@ exports.finishtraining = async (req, res, next)=>{
                                     return e;
     });
 
-    console.log("curr challenges: ");
+    console.log("curr challenges ("+ currentChallenges.length +"): ");
     console.log(currentChallenges);
-    var completedChallenges;                    
+    const completedChallenges = [];                   
     for(let i of currentChallenges){
         if(i.duration === "WEEKLY"){
-            if(lastWeeksDistance > i.distance){
-                completedChallenges += i;
+            if(lastWeeksDistance >= i.distance){
+                completedChallenges.push(i);
             }
         }else{
-            if(lastDaysDistance > i.distance){
-                completedChallenges += i;
+            if(lastDaysDistance >= i.distance){
+                completedChallenges.push(i);
             }
         }
     }
     
-    console.log("completed ")
+    console.log("completed challanges: ");
+    console.log(completedChallenges.length);
+    const returnchallenges = [];
+    for(i of completedChallenges){
+        const [retval, created] = await UserChallenges.findOrCreate({where: {
+            userId: req.user.id,
+            challangeId: i.id
+        }});
+        if(created === true) returnchallenges.push(retval);
+    }
 
-    res.send("OK");
+    res.send(JSON.stringify(returnchallenges));
 }
-
-
-
-
 
 function historyLastxTime(id, sportsCategory, time = null) {
     console.log("func beginning");
