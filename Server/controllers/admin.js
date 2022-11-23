@@ -44,7 +44,7 @@ exports.AddNewChallanges = async (req, res, next) =>{
     var distance = req.body.distance;
     var duration = req.body.duration;
     var sportType = req.body.sportType; // 0: walk, 1: run, 2: cycle
-    var startdate = new Date(req.body.startdate);
+    var startdate = new Date(req.body.startDate);
     startdate.setHours(0);
     startdate.setMinutes(0);
     startdate.setSeconds(0);
