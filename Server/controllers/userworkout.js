@@ -157,13 +157,13 @@ exports.finishtraining = async (req, res, next)=>{
         }
     }
     
-    console.log("completed challanges: ");
+    console.log("completed challenges: ");
     console.log(completedChallenges.length);
     const returnchallenges = [];
     for(i of completedChallenges){
         const [retval, created] = await UserChallenges.findOrCreate({where: {
             userId: req.user.id,
-            challangeId: i.id
+            challengeId: i.id
         }});
         if(created === true) returnchallenges.push(retval);
     }
