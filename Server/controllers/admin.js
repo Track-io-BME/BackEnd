@@ -78,9 +78,9 @@ exports.AddNewChallenges = async (req, res, next) =>{
 exports.DeleteChallenge = async (req, res, next) => {
   const deleteID = req.body.id;
 
-  challenges.findOne({attributes: ['id', 'distance', 'sportType', 'startDate', 'duration']})
+  challenges.findByPk(deleteID)
   .then(val => {
-    challenges.destroy({where: { id : deleteID }})
+    challenges.destroy({where: { id : val.id }})
       .then(num => {
         res.send(JSON.stringify({
           id: val.id,
@@ -90,6 +90,12 @@ exports.DeleteChallenge = async (req, res, next) => {
           duration: val.duration
         }));
       });
+  }).catch(err => {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    err.message = "Challenge was not found.";
+    next(err);
   })
     
 }
