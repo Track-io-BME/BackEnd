@@ -52,9 +52,9 @@ exports.AddNewChallanges = async (req, res, next) =>{
 
     var ENDDATE;
     if(duration === "DAILY"){
-      ENDDATE = new Date(startdate.getTime() + 24 * 3600000);
+      ENDDATE = new Date(startDate.getTime() + 24 * 3600000);
     } else{
-      ENDDATE = new Date(startdate.getTime() + 7 * 24 * 3600000);
+      ENDDATE = new Date(startDate.getTime() + 7 * 24 * 3600000);
     }
     
     challanges.create({
