@@ -44,7 +44,7 @@ exports.Signup = async (req, res, next) =>{
             }   
         }).then(result=>{
             if(!result){ 
-                res.status(400).json({message: 'User already exists', email: ''});
+                res.status(201).json({message: 'User already exists', email: ''});
             }else{
                 res.status(201).json({message: 'User created', email: email});
             }
