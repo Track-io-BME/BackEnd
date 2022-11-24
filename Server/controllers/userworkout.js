@@ -33,7 +33,7 @@ exports.top3 = (req, res, next)=>{
 
 exports.LastWeek = (req, res, next) => {
     var gtTime = new Date();
-    const res = [];
+    const result = [];
     gtTime.setDate(gtTime.getDate() - 7);
     SportHistory.findAll({
         where: {
@@ -48,7 +48,7 @@ exports.LastWeek = (req, res, next) => {
         }
     }).then(v => {
         for(let i of v){
-            res.push(
+            result.push(
                 {
                     id: i.id,
                     date: i.date.getTime(),
@@ -64,12 +64,12 @@ exports.LastWeek = (req, res, next) => {
         }
     });
 
-    res.send(JSON.stringify(res));
+    res.send(JSON.stringify(result));
 }
 
 exports.LastMonth = (req, res, next) => {
     var gtTime = new Date();
-    const res = [];
+    const result = [];
     gtTime.setDate(gtTime.getDate() - 30);
     SportHistory.findAll({
         where: {
@@ -84,7 +84,7 @@ exports.LastMonth = (req, res, next) => {
         }
     }).then(v => {
         for(let i of v){
-            res.push(
+            result.push(
                 {
                     id: i.id,
                     date: i.date.getTime(),
@@ -100,12 +100,12 @@ exports.LastMonth = (req, res, next) => {
         }
     });
 
-    res.send(JSON.stringify(res));
+    res.send(JSON.stringify(result));
 }
 
 exports.All = (req, res, next) => {
     var gtTime = new Date();
-    const res = [];
+    const result = [];
     gtTime.setDate(gtTime.getDate() - 7);
     SportHistory.findAll({
         where: {
@@ -113,7 +113,7 @@ exports.All = (req, res, next) => {
         }
     }).then(v => {
         for(let i of v){
-            res.push(
+            result.push(
                 {
                     id: i.id,
                     date: i.date.getTime(),
@@ -129,7 +129,7 @@ exports.All = (req, res, next) => {
         }
     });
 
-    res.send(JSON.stringify(res));
+    res.send(JSON.stringify(result));
 }
 
 exports.finishtraining = async (req, res, next)=>{
