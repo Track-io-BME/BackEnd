@@ -12,13 +12,13 @@ exports.top3 = (req, res, next)=>{
         where: {
             userId: userID
         }
-    }).then(tops=>{
+    }).then(tops=>{ 
         const rets = [];
         for(let i of tops){
             rets.push({
                 id: i.id,
                 date: i.date.getTime(),
-                totalduration: i.totalDuration,
+                totalduration: i.totalduration,
                 steps: i.steps,
                 distance: i.distance,
                 averageSpeed: i.averageSpeed,
@@ -31,76 +31,105 @@ exports.top3 = (req, res, next)=>{
     });
 }
 
-exports.RunningHistoryAll = (req, res, next)=>{
-    historyLastxTime(req.user.id, "RUNNING")
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
+exports.LastWeek = (req, res, next) => {
+    var gtTime = new Date();
+    const res = [];
+    gtTime.setDate(gtTime.getDate() - 7);
+    SportHistory.findAll({
+        where: {
+            [Op.and]:
+            {
+                date: {
+                    [Op.gte]: gtTime
+                },
+                userId: req.user.id
+            }
+            
+        }
+    }).then(v => {
+        for(let i of v){
+            res.push(
+                {
+                    id: i.id,
+                    date: i.date.getTime(),
+                    totalduration: i.totalduration,
+                    steps: i.steps,
+                    distance: i.distance,
+                    averageSpeed: i.averageSpeed,
+                    calories: i.calories,
+                    elevation: i.elevation,
+                    sportType: i.sportType
+                }
+            )
+        }
+    });
+
+    res.send(JSON.stringify(res));
 }
 
-exports.RunningHistoryLastWeek = (req, res, next)=>{
-    historyLastxTime(req.user.id, "RUNNING", 7)
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
+exports.LastMonth = (req, res, next) => {
+    var gtTime = new Date();
+    const res = [];
+    gtTime.setDate(gtTime.getDate() - 30);
+    SportHistory.findAll({
+        where: {
+            [Op.and]:
+            {
+                date: {
+                    [Op.gte]: gtTime
+                },
+                userId: req.user.id
+            }
+            
+        }
+    }).then(v => {
+        for(let i of v){
+            res.push(
+                {
+                    id: i.id,
+                    date: i.date.getTime(),
+                    totalduration: i.totalduration,
+                    steps: i.steps,
+                    distance: i.distance,
+                    averageSpeed: i.averageSpeed,
+                    calories: i.calories,
+                    elevation: i.elevation,
+                    sportType: i.sportType
+                }
+            )
+        }
+    });
+
+    res.send(JSON.stringify(res));
 }
 
-exports.RunningHistoryLastMonth = (req, res, next)=>{
-    historyLastxTime(req.user.id, "RUNNING", 30)
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
-}
+exports.All = (req, res, next) => {
+    var gtTime = new Date();
+    const res = [];
+    gtTime.setDate(gtTime.getDate() - 7);
+    SportHistory.findAll({
+        where: {
+            userId: req.user.id
+        }
+    }).then(v => {
+        for(let i of v){
+            res.push(
+                {
+                    id: i.id,
+                    date: i.date.getTime(),
+                    totalduration: i.totalduration,
+                    steps: i.steps,
+                    distance: i.distance,
+                    averageSpeed: i.averageSpeed,
+                    calories: i.calories,
+                    elevation: i.elevation,
+                    sportType: i.sportType
+                }
+            )
+        }
+    });
 
-exports.WalkingHistoryAll = (req, res, next)=>{
-    historyLastxTime(req.user.id, "WALKING")
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        })
-}
-
-exports.WalkingHistoryLastWeek = async (req, res, next)=>{
-    historyLastxTime(req.user.id, "WALKING", 7)
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        })
-}
-
-exports.WalkingHistoryLastMonth = (req, res, next)=>{
-    historyLastxTime(req.user.id, "WALKING", 30)
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
-}
-
-exports.CyclingHistoryAll = (req, res, next)=>{
-    historyLastxTime(req.user.id, "CYCLING")
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
-}
-
-exports.CyclingHistoryLastWeek = (req, res, next)=>{
-    historyLastxTime(req.user.id, "CYCLING", 7)
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
-}
-
-exports.CyclingHistoryLastMonth = async (req, res, next)=>{
-    historyLastxTime(req.user.id, "CYCLING", 30)
-        .then(retval => {
-            console.log("arrived back");
-            res.status(200).send(JSON.stringify(retval));
-        });
+    res.send(JSON.stringify(res));
 }
 
 exports.finishtraining = async (req, res, next)=>{
@@ -190,7 +219,7 @@ exports.finishtraining = async (req, res, next)=>{
     res.send(JSON.stringify({
         id: retval.id,
         date: retval.date.getTime(),
-        totalduration: retval.totalDuration,
+        totalduration: retval.totalduration,
         steps: retval.steps,
         distance: retval.distance,
         averageSpeed: retval.averageSpeed,
