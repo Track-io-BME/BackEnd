@@ -8,7 +8,7 @@ const sportHistory = sequelize.define('sportHistory', {
         allowNull: false,
         primaryKey: true
     },
-    date: Sequelize.DataTypes.DATEONLY,
+    date: Sequelize.DataTypes.DATE,
     totalduration: Sequelize.DataTypes.INTEGER,
     steps: Sequelize.DataTypes.INTEGER,
     distance: Sequelize.DataTypes.FLOAT,

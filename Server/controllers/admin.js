@@ -96,13 +96,26 @@ exports.DeleteChallenge = async (req, res, next) => {
   ).then(updatedRow => {
     challenges.findByPk(deleteID)
       .then(item => {
-        res.send(JSON.stringify({
-          id: item.id,
-          distance: item.distance,
-          sportType: item.sportType,
-          startDate: item.startDate.getTime(),
-          duration: item.duration
-        }));
+        console.log(item);
+        if(item === null){ 
+          const err = new Error("Challenge not found.");
+          err.statusCode = 400;
+          throw err;
+        }
+        else{
+          res.send(JSON.stringify({
+            id: item.id,
+            distance: item.distance,
+            sportType: item.sportType,
+            startDate: item.startDate.getTime(),
+            duration: item.duration
+          }));
+        }
+      }).catch(err => {
+        if(!err.statusCode){
+          err.statusCode = 500;
+        }
+        next(err);
       });
   }).catch(err => {
     if(!err.statusCode){

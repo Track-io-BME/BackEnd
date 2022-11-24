@@ -4,7 +4,31 @@ const UserChallenges = require('../models/userChallenges');
 const { Op } = require("sequelize");
 
 exports.top3 = (req, res, next)=>{
-    
+    const userID = req.user.id;
+
+    SportHistory.findAll({
+        limit: 3,
+        order: [['createdAt', 'DESC']],
+        where: {
+            userId: userID
+        }
+    }).then(tops=>{
+        const rets = [];
+        for(let i of tops){
+            rets.push({
+                id: i.id,
+                date: i.date.getTime(),
+                totalduration: i.totalDuration,
+                steps: i.steps,
+                distance: i.distance,
+                averageSpeed: i.averageSpeed,
+                calories: i.calories,
+                elevation: i.elevation,
+                sportType: i.sportType
+            })
+        }
+        res.send(JSON.stringify(rets));
+    });
 }
 
 exports.RunningHistoryAll = (req, res, next)=>{
@@ -89,7 +113,7 @@ exports.finishtraining = async (req, res, next)=>{
     const elevation = req.body.elevation;
     const sportType = req.body.sportType;
 
-    SportHistory.create({
+    const retval = await SportHistory.create({
         date: date,
         totalduration: totalDuration,
         steps: steps,
@@ -156,16 +180,24 @@ exports.finishtraining = async (req, res, next)=>{
     
     console.log("completed challenges: ");
     console.log(completedChallenges.length);
-    const returnchallenges = [];
     for(i of completedChallenges){
         const [retval, created] = await UserChallenges.findOrCreate({where: {
             userId: req.user.id,
             challengeId: i.id
         }});
-        if(created === true) returnchallenges.push(retval);
     }
 
-    res.send(JSON.stringify(returnchallenges));
+    res.send(JSON.stringify({
+        id: retval.id,
+        date: retval.date.getTime(),
+        totalduration: retval.totalDuration,
+        steps: retval.steps,
+        distance: retval.distance,
+        averageSpeed: retval.averageSpeed,
+        calories: retval.calories,
+        elevation: retval.elevation,
+        sportType: retval.sportType
+    }));
 }
 
 function historyLastxTime(id, sportsCategory, time = null) {
