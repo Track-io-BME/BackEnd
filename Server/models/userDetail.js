@@ -10,7 +10,7 @@ const userDetail = sequelize.define('userDetail', {
     },
     height: Sequelize.DataTypes.INTEGER,
     sex: Sequelize.DataTypes.STRING,
-    birthDate: Sequelize.DataTypes.DATEONLY,
+    birthDate: Sequelize.DataTypes.DATE,
     goalSteps: Sequelize.DataTypes.INTEGER,
     goalWeight: Sequelize.DataTypes.INTEGER
 });

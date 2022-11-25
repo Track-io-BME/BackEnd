@@ -8,7 +8,7 @@ const userWeight = sequelize.define('userWeight', {
         allowNull: false,
         primaryKey: true
     },
-    date: Sequelize.DataTypes.DATEONLY,
+    date: Sequelize.DataTypes.DATE,
     weight: Sequelize.DataTypes.INTEGER
 });
 

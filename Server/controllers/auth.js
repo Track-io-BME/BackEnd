@@ -2,6 +2,8 @@ const {validationResult} = require('express-validator')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 const user = require('../models/user');
+const userDetail = require('../models/userDetail');
+const userWeight = require('../models/userWeight');
 
 
 exports.Signup = async (req, res, next) =>{
@@ -27,19 +29,32 @@ exports.Signup = async (req, res, next) =>{
                 console.log("már létezik");
                 return null;
             }else{
-                console.log("még nem létezik");
-                bcrypt.hash(password ,12).then(hashedpassw=>{
+              console.log("még nem létezik");
+              bcrypt.hash(password ,12).then(hashedpassw=>{
                         user.create({
                             email: email,
                             firstname: firstname,
                             lastname: lastname,
-                            gender: gender,
-                            height: height,
-                            weight: weight,
-                            dateofbirth: dateofbirth,
                             password: hashedpassw,
+                        }).then(u => {
+                            userDetail.create({
+                              height: height,
+                              sex: gender,
+                              birthDate: dateofbirth,
+                              userId: u.id
+                            }).then(ud => {
+                              userWeight.create({
+                                weight: weight,
+                                date: Date.now(),
+                                userDetailId: ud.id
+                              });
+                            })
+                            
                         });  
-                    });
+                });
+
+                
+
                 return email;
             }   
         }).then(result=>{
