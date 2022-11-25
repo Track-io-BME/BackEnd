@@ -33,7 +33,7 @@ module.exports = async (req, res, next)=>{
                 id: id
             }
         })
-
+        console.log("Authenticated");
         next();
     } catch (error) {
         if (!error.statusCode) {

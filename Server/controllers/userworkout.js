@@ -19,11 +19,9 @@ exports.top3 = (req, res, next)=>{
                 id: i.id,
                 date: i.date.getTime(),
                 totalduration: i.totalduration,
-                steps: i.steps,
                 distance: i.distance,
                 averageSpeed: i.averageSpeed,
                 calories: i.calories,
-                elevation: i.elevation,
                 sportType: i.sportType
             })
         }
@@ -53,11 +51,9 @@ exports.LastWeek = (req, res, next) => {
                     id: i.id,
                     date: i.date.getTime(),
                     totalduration: i.totalduration,
-                    steps: i.steps,
                     distance: i.distance,
                     averageSpeed: i.averageSpeed,
                     calories: i.calories,
-                    elevation: i.elevation,
                     sportType: i.sportType
                 }
             )
@@ -89,11 +85,9 @@ exports.LastMonth = (req, res, next) => {
                     id: i.id,
                     date: i.date.getTime(),
                     totalduration: i.totalduration,
-                    steps: i.steps,
                     distance: i.distance,
                     averageSpeed: i.averageSpeed,
                     calories: i.calories,
-                    elevation: i.elevation,
                     sportType: i.sportType
                 }
             )
@@ -104,9 +98,8 @@ exports.LastMonth = (req, res, next) => {
 }
 
 exports.All = (req, res, next) => {
-    var gtTime = new Date();
+    console.log("getall running.");
     const result = [];
-    gtTime.setDate(gtTime.getDate() - 7);
     SportHistory.findAll({
         where: {
             userId: req.user.id
@@ -118,38 +111,32 @@ exports.All = (req, res, next) => {
                     id: i.id,
                     date: i.date.getTime(),
                     totalduration: i.totalduration,
-                    steps: i.steps,
                     distance: i.distance,
                     averageSpeed: i.averageSpeed,
                     calories: i.calories,
-                    elevation: i.elevation,
                     sportType: i.sportType
                 }
             )
         }
+        res.send(JSON.stringify(result));
     });
-
-    res.send(JSON.stringify(result));
 }
 
 exports.finishtraining = async (req, res, next)=>{
+    console.log("finishtraining running")
     const date = new Date(req.body.date);
     const totalDuration = req.body.totalduration
-    const steps = req.body.steps;
     const distance = req.body.distance;
     const averageSpeed = req.body.averageSpeed;
     const calories = req.body.calories;
-    const elevation = req.body.elevation;
     const sportType = req.body.sportType;
 
     const retval = await SportHistory.create({
         date: date,
         totalduration: totalDuration,
-        steps: steps,
         distance: distance,
         averageSpeed: averageSpeed,
         calories: calories,
-        elevation: elevation,
         sportType: sportType,
         userId: req.user.id
     })
@@ -220,11 +207,9 @@ exports.finishtraining = async (req, res, next)=>{
         id: retval.id,
         date: retval.date.getTime(),
         totalduration: retval.totalduration,
-        steps: retval.steps,
         distance: retval.distance,
         averageSpeed: retval.averageSpeed,
         calories: retval.calories,
-        elevation: retval.elevation,
         sportType: retval.sportType
     }));
 }
@@ -236,7 +221,7 @@ function historyLastxTime(id, sportsCategory, time = null) {
         var gtTime = new Date();
         gtTime.setDate(gtTime.getDate() - time);
         return SportHistory.findAll({
-            attributes: ['date', 'totalduration', 'steps', 'distance', 'averageSpeed', 'calories', 'elevation', 'SportType'],
+            attributes: ['date', 'totalduration', 'distance', 'averageSpeed', 'calories', 'SportType'],
             where : {
                 userId: id,
                 date: {
@@ -249,7 +234,7 @@ function historyLastxTime(id, sportsCategory, time = null) {
         });
     }else{
         return SportHistory.findAll({
-            attributes: ['date', 'totalduration', 'steps', 'distance', 'averageSpeed', 'calories', 'elevation', 'SportType'],
+            attributes: ['date', 'totalduration', 'distance', 'averageSpeed', 'calories', 'SportType'],
             where : {
                 userId: id,
                 sportType: {

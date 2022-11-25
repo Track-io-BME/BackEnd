@@ -10,11 +10,9 @@ const sportHistory = sequelize.define('sportHistory', {
     },
     date: Sequelize.DataTypes.DATE,
     totalduration: Sequelize.DataTypes.INTEGER,
-    steps: Sequelize.DataTypes.INTEGER,
     distance: Sequelize.DataTypes.FLOAT,
     averageSpeed: Sequelize.DataTypes.FLOAT,
     calories: Sequelize.DataTypes.INTEGER,
-    elevation: Sequelize.DataTypes.FLOAT,
     sportType: Sequelize.DataTypes.STRING // WALKING, RUNNING, CYCLING
 });
 
