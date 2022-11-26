@@ -48,9 +48,19 @@ exports.Signup = async (req, res, next) =>{
                                 date: Date.now(),
                                 userDetailId: ud.id
                               });
-                            })
+                            }).catch(error => {
+                              if (!error.statusCode) {
+                                  error.statusCode = 500;
+                                }
+                                next(error);
+                          });
                             
-                        });  
+                        }).catch(error => {
+                          if (!error.statusCode) {
+                              error.statusCode = 500;
+                            }
+                            next(error);
+                      }); 
                 });
 
                 

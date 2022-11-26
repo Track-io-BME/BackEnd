@@ -30,6 +30,11 @@ exports.getActiveChallenges = async (req, res, next)=>{
             });
         }
         res.send(JSON.stringify(retval));
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 }
 
@@ -53,6 +58,11 @@ exports.getCompletedChallenges = async (req, res, next)=>{
             }); 
         }
         res.send(JSON.stringify(retval));
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 
 }

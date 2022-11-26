@@ -26,6 +26,11 @@ exports.top3 = (req, res, next)=>{
             })
         }
         res.send(JSON.stringify(rets));
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 }
 
@@ -58,6 +63,11 @@ exports.LastWeek = (req, res, next) => {
                 }
             )
         }
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 
     res.send(JSON.stringify(result));
@@ -92,6 +102,11 @@ exports.LastMonth = (req, res, next) => {
                 }
             )
         }
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 
     res.send(JSON.stringify(result));

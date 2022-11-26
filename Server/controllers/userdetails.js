@@ -19,7 +19,12 @@ exports.All = (req, res, next)=>{
             "goalWeight": ud.goalWeight
         }
         res.send(retval);
-    })
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
+    });
 }
 
 exports.GoalsGet = (req, res, next)=>{
@@ -32,6 +37,11 @@ exports.GoalsGet = (req, res, next)=>{
             goalSteps: ud.goalSteps,
             goalWeight: ud.goalWeight
         }));
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 }
 
@@ -50,10 +60,16 @@ exports.GoalsPut = (req, res, next)=>{
                 goalSteps: req.body.stepgoal,
                 goalWeight: req.body.weightgoal
             }));
+        }).catch(error => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+              }
+              next(error);
         });
 }
 
 exports.WeightGet = (req, res, next)=>{
+    console.log("weightget running");
     userDetail.findOne({
         where: {
             userId: req.user.id
@@ -66,13 +82,25 @@ exports.WeightGet = (req, res, next)=>{
         }).then(uw => {
             const retval = [];
             for(let i of uw){
+                console.log(i.id);
                 retval.push({
+                    id: i.id,
                     weight: i.weight,
                     date: i.date.getTime()
                 })
             }
             res.send(JSON.stringify(retval));
+        }).catch(error => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+              }
+              next(error);
         });
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 }
 
@@ -89,10 +117,20 @@ exports.WeightPost = (req, res, next)=>{
         }).then(createdElement => {
             res.send(JSON.stringify({
                 id: createdElement.id,
-                newWeight: createdElement.weight,
+                weight: createdElement.weight,
                 date: createdElement.date.getTime()
             }));
+        }).catch(error => {
+            if (!error.statusCode) {
+                error.statusCode = 500;
+              }
+              next(error);
         });
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 }
 
@@ -103,5 +141,10 @@ exports.BirthDate = (req, res, next)=>{
         }
     }).then(ud => {
         res.send(JSON.stringify({ birthDate: ud.birthDate.getTime()}));
+    }).catch(error => {
+        if (!error.statusCode) {
+            error.statusCode = 500;
+          }
+          next(error);
     });
 }
