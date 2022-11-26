@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const user = require('../models/user');
 const userDetail = require('../models/userDetail');
 const userWeight = require('../models/userWeight');
-
+require('dotenv').config()
 
 exports.Signup = async (req, res, next) =>{
     const errors = validationResult(req);
@@ -108,7 +108,7 @@ exports.login = (req, res, next) => {
             email: loadedUser.email,
             userID: loadedUser.id.toString()
           },
-          'secret',
+          process.env.ACCESS_TOKEN_SECRET,
           { expiresIn: '1h' }
         );
         res.status(200).json({"token": token, "email": loadedUser.email});

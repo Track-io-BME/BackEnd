@@ -69,7 +69,6 @@ exports.GoalsPut = (req, res, next)=>{
 }
 
 exports.WeightGet = (req, res, next)=>{
-    console.log("weightget running");
     userDetail.findOne({
         where: {
             userId: req.user.id
@@ -82,7 +81,6 @@ exports.WeightGet = (req, res, next)=>{
         }).then(uw => {
             const retval = [];
             for(let i of uw){
-                console.log(i.id);
                 retval.push({
                     id: i.id,
                     weight: i.weight,
