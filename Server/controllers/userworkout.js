@@ -63,20 +63,20 @@ exports.LastWeek = (req, res, next) => {
                 }
             )
         }
+        res.send(JSON.stringify(result));
     }).catch(error => {
         if (!error.statusCode) {
             error.statusCode = 500;
           }
           next(error);
     });
-
-    res.send(JSON.stringify(result));
 }
 
 exports.LastMonth = (req, res, next) => {
     var gtTime = new Date();
+    gtTime.setMonth(gtTime.getMonth() - 1);
+    console.log(gtTime.toString());
     const result = [];
-    gtTime.setDate(gtTime.getDate() - 30);
     SportHistory.findAll({
         where: {
             [Op.and]:
@@ -102,14 +102,13 @@ exports.LastMonth = (req, res, next) => {
                 }
             )
         }
+        res.send(JSON.stringify(result));
     }).catch(error => {
         if (!error.statusCode) {
             error.statusCode = 500;
           }
           next(error);
     });
-
-    res.send(JSON.stringify(result));
 }
 
 exports.All = (req, res, next) => {
