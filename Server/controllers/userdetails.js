@@ -146,3 +146,20 @@ exports.BirthDate = (req, res, next)=>{
           next(error);
     });
 }
+
+exports.setHeight = (req, res, next) => {
+    userDetail.update(
+        {
+            height: req.body.height
+        },
+        {
+            where: {
+                userId: req.user.id
+            }
+        }
+    ).then(updatedRow => {
+        res.send(JSON.stringify({
+            height: req.body.height   
+        }));
+    });
+}

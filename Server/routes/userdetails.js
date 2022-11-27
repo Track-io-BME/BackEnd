@@ -10,5 +10,6 @@ router.put('/goals', userDetailsCont.GoalsPut);
 router.get('/weight', userDetailsCont.WeightGet);
 router.post('/weight', userDetailsCont.WeightPost);
 router.get('/birthDate', userDetailsCont.BirthDate);
+router.get('/setHeight', userDetailsCont.setHeight);
 
 module.exports = router;
