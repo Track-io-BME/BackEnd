@@ -8,6 +8,8 @@ const userDetail = sequelize.define('userDetail', {
         allowNull: false,
         primaryKey: true
     },
+    firstName: Sequelize.DataTypes.STRING,
+    lastName: Sequelize.DataTypes.STRING,
     height: Sequelize.DataTypes.INTEGER,
     sex: Sequelize.DataTypes.STRING,
     birthDate: Sequelize.DataTypes.DATE,

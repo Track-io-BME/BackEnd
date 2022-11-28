@@ -12,6 +12,8 @@ exports.All = (req, res, next)=>{
     }).then(ud => {
         const retval = {
             "id": ud.id,
+            "firstName": ud.firstName,
+            "lastName": ud.lastName,
             "height": ud.height,
             "sex": ud.sex,
             "birthDate": ud.birthDate.getTime(),

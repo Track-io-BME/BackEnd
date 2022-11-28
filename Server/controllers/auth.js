@@ -38,6 +38,8 @@ exports.Signup = async (req, res, next) =>{
                             password: hashedpassw,
                         }).then(u => {
                             userDetail.create({
+                              firstName: firstname,
+                              lastName: lastname,
                               height: height,
                               sex: gender,
                               birthDate: dateofbirth,
