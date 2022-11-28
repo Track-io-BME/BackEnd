@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 const Users = require('../models/user');
-require('dotenv').config()
-
 
 module.exports = async (req, res, next)=>{
     const authHeader = req.get('Authorization');
@@ -16,7 +14,7 @@ module.exports = async (req, res, next)=>{
         const token = authHeader.split(' ')[1];
         
         try{
-            decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+            decodedToken = jwt.verify(token, '5fcf63007a349507a39efd7690d4a07120bf118e559faf6c0dca463b08fc4735b833935f7a8bfd1f88f156d30bc48edfe48edfec5a1146a8eac0acedaa7c73ed7ea685');
         }catch(err){
             err.statusCode = 500;
             throw err;
