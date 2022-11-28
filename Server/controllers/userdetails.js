@@ -72,8 +72,8 @@ exports.GoalsGet = (req, res, next)=>{
 exports.GoalsPut = (req, res, next)=>{
     userDetail.update(
         {
-            goalSteps: req.body.stepgoal,
-            goalWeight: req.body.weightgoal
+            goalSteps: req.body.goalSteps,
+            goalWeight: req.body.goalWeight
         },
         {
             where: {
