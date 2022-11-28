@@ -10,6 +10,17 @@ exports.All = (req, res, next)=>{
             userId: userID
         }
     }).then(ud => {
+        var gsteps; var gweight;
+        if(ud.goalSteps === null){
+            gsteps = 0;
+        }else{
+            gsteps = ud.goalSteps;
+        }
+        if(ud.goalWeight === null){
+            gweight = 0;
+        }else{
+            gweight = ud.goalWeight;
+        }
         const retval = {
             "id": ud.id,
             "firstName": ud.firstName,
@@ -17,8 +28,8 @@ exports.All = (req, res, next)=>{
             "height": ud.height,
             "sex": ud.sex,
             "birthDate": ud.birthDate.getTime(),
-            "goalSteps": ud.goalSteps,
-            "goalWeight": ud.goalWeight
+            "goalSteps": gsteps,
+            "goalWeight": gweight
         }
         res.send(retval);
     }).catch(error => {
@@ -35,9 +46,20 @@ exports.GoalsGet = (req, res, next)=>{
             userId: req.user.id
         }
     }).then(ud => {
+        var gsteps; var gweight;
+        if(ud.goalSteps === null){
+            gsteps = 0;
+        }else{
+            gsteps = ud.goalSteps;
+        }
+        if(ud.goalWeight === null){
+            gweight = 0;
+        }else{
+            gweight = ud.goalWeight;
+        }
         res.send(JSON.stringify({
-            goalSteps: ud.goalSteps,
-            goalWeight: ud.goalWeight
+            goalSteps: gsteps,
+            goalWeight: gweight
         }));
     }).catch(error => {
         if (!error.statusCode) {
