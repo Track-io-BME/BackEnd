@@ -130,7 +130,7 @@ exports.All = (req, res, next) => {
                     calories: i.calories,
                     sportType: i.sportType
                 }
-            )
+            );
         }
         res.send(JSON.stringify(result));
     });
