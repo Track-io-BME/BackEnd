@@ -146,27 +146,3 @@ exports.adminLogin = async (req, res, next) => {
     })
 }
 
-
-async function temp(){
-  const deleteID = req.body.id;
-
-  challenges.findByPk(deleteID)
-  .then(val => {
-    challenges.destroy({where: { id : val.id }})
-      .then(num => {
-        res.send(JSON.stringify({
-          id: val.id,
-          distance: val.distance,
-          sportType: val.sportType,
-          startDate: val.startDate.getTime(),
-          duration: val.duration
-        }));
-      });
-  }).catch(err => {
-    if (!err.statusCode) {
-      err.statusCode = 500;
-    }
-    err.message = "Challenge was not found.";
-    next(err);
-  })
-}

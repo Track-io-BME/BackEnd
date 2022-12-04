@@ -6,6 +6,8 @@ const isAuth = require('../middleware/is-auth');
 
 const router = express.Router();
 
+// '/admin'
+
 router.post('/addnewchallenge', isAuth, isAdmin, adminCont.AddNewChallenges);
 
 router.get('/challenges', isAuth, isAdmin, adminCont.Challenges);

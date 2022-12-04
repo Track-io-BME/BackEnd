@@ -4,6 +4,8 @@ const authCont = require('../controllers/auth')
 
 const router = express.Router();
 
+// 'none'
+
 router.put('/signup', [
     body('email').isEmail().withMessage("Please enter a vald email."), 
     body('password').trim().isLength({min: 5}),

@@ -1,0 +1,602 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Track.io
+  description: The API of the Track.io application.
+
+servers:
+  - url: https://example.io/v1
+
+# Basic authentication
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths: 
+  /signup:
+    put:
+      description: 'Creates new user'
+      parameters:
+        - in: body
+          required: true
+          name: user
+          description: The user to create.
+          schema:
+            type: object
+            required:
+              - userName
+            properties:
+              email:
+                type: string
+              firstname:
+                type: string
+              lastname:
+                type: string
+              gender:
+                type: string
+              weight:
+                type: integer
+              height:
+                type: integer
+              dateofbirth:
+                type: number
+              password:
+                type: string
+      responses:
+        '201':
+          description: In case of succesfull signup
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  email:
+                    type: string                 
+  /login:
+    post:
+      description: 'Logs user in'
+      parameters:
+        - in: body
+          required: true
+          name: loginuser
+          description: The user who logs in.
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: In case of succesfull login
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  email:
+                    type: string
+
+
+
+  /admin/addnewchallenge:
+    post:
+      security:
+        - bearerAuth: []
+      description: 'Here can the admin add new challenges.'
+      parameters:
+        - in: body
+          required: true
+          name: user
+          description: The user to create.
+          schema:
+            type: object
+            properties:
+              distance:
+                type: number
+              duration:
+                type: string
+              SportType:
+                type: string
+              startDate:
+                type: number
+      responses:
+        '200':
+          description: New challenge added
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: string
+                  sportType:
+                    type: string
+                  duration:
+                    type: string
+                  startDate:
+                    type: number
+  /admin/challenges:
+    get:
+      security:
+        - bearerAuth: []
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: Get all challenges
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: string
+                  sportType:
+                    type: string
+                  duration:
+                    type: string
+                  startDate:
+                    type: number
+  /admin/deletechallenge:
+    post:
+      security:
+        - bearerAuth: []
+      description: ''
+      parameters:
+        - in: body
+          required: true
+          name: id
+          description: Inactivate challenge
+          schema:
+            type: object
+            properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: string
+                  sportType:
+                    type: string
+                  duration:
+                    type: string
+                  startDate:
+                    type: number
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: string
+                  sportType:
+                    type: string
+                  duration:
+                    type: string
+                  startDate:
+                    type: number
+  /admin/login:
+    post:
+      description: 'Logs user in'
+      parameters:
+        - in: body
+          required: true
+          name: loginuser
+          description: The user who logs in.
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      responses:
+        '200':
+          description: In case of succesfull login
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  email:
+                    type: string
+
+
+
+  /challenges/getActiveChallenges:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Get all current challenges'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: string
+                  sportType:
+                    type: string
+                  duration:
+                    type: string
+                  startDate:
+                    type: number
+  /challenges/getCompletedChallenges:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Get all challenges that the user has already completed.'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: string
+                  sportType:
+                    type: string
+                  duration:
+                    type: string
+                  startDate:
+                    type: number
+
+
+
+  /userDetails/all:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'retrieves all user data except weight'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  firstName:
+                    type: string
+                  lastName:
+                    type: string
+                  height:
+                    type: string
+                  sex:
+                    type: number
+                  birthDate:
+                    type: number
+                  goalSteps:
+                    type: number
+                  goalWeight:
+                    type: number
+  /userDetails/goals:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieves user goals'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  goalSteps:
+                    type: integer
+                  goalWeight:
+                    type: number
+    put:
+      security:
+        - bearerAuth: []
+      description: 'Inserts new user goals'
+      parameters:
+        - in: body
+          required: true
+          name: goals
+          description: The user who logs in.
+          schema:
+            type: object
+            properties:
+              goalSteps:
+                type: integer
+              goalWeight:
+                type: number
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  goalSteps:
+                    type: integer
+                  goalWeight:
+                    type: number
+  /userDetails/weight:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieves all user weights'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  weight:
+                    type: number
+                  date: 
+                    type: number
+    post:
+      security:
+        - bearerAuth: []
+      description: ''
+      parameters:
+        - in: body
+          required: true
+          name: weightdata
+          description: The new weight Data
+          schema:
+            type: object
+            properties:
+                  weight:
+                    type: number
+                  date: 
+                    type: number
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  weight:
+                    type: number
+                  date: 
+                    type: number
+  /userDetails/birthDate:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieve user birth date'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  birthDate:
+                    type: number
+  /userDetails/setHeight:
+    post:
+      security:
+        - bearerAuth: []
+      description: 'Set new height'
+      parameters:
+        - in: body
+          required: true
+          name: heightdata
+          description: The new height Data
+          schema:
+            type: object
+            properties:
+                  height:
+                    type: number
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  height:
+                    type: number
+
+
+  /userWorkout/top3:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieves last three workouts'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: number
+                  sportType:
+                    type: string
+                  totalduration:
+                    type: integer
+                  date:
+                    type: number
+                  averageSpeed:
+                    type: number
+                  calories:
+                    type: number
+  /userWorkout/lastweek:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieves last weeks workouts'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: number
+                  sportType:
+                    type: string
+                  totalduration:
+                    type: integer
+                  date:
+                    type: number
+                  averageSpeed:
+                    type: number
+                  calories:
+                    type: number
+  /userWorkout/lastmonth:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieves last months workouts'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: number
+                  sportType:
+                    type: string
+                  totalduration:
+                    type: integer
+                  date:
+                    type: number
+                  averageSpeed:
+                    type: number
+                  calories:
+                    type: number
+  /userWorkout/all:
+    get:
+      security:
+        - bearerAuth: []
+      description: 'Retrieves all earlier workouts'
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: number
+                  sportType:
+                    type: string
+                  totalduration:
+                    type: integer
+                  date:
+                    type: number
+                  averageSpeed:
+                    type: number
+                  calories:
+                    type: number
+  /userWorkout/finishTraining:
+    post:
+      security:
+        - bearerAuth: []
+      description: 'At the end of the training
+       the client sends the informations about the Training. This endpoint saves it and
+       checks if there is a newly completed challenge. in case there is, the server saves that also.'
+      parameters:
+        - in: body
+          required: true
+          name: finishedTraining
+          description: Parameters of the finished training
+          schema:
+            type: object
+            properties:
+                  distance:
+                    type: number
+                  sportType:
+                    type: string
+                  totalduration:
+                    type: integer
+                  date:
+                    type: number
+                  averageSpeed:
+                    type: number
+                  calories:
+                    type: number
+      responses:
+        '200':
+          description: Success
+          content: 
+            application/json:
+              schema:
+                type: array
+                properties:
+                  id:
+                    type: integer
+                  distance:
+                    type: number
+                  sportType:
+                    type: string
+                  totalduration:
+                    type: integer
+                  date:
+                    type: number
+                  averageSpeed:
+                    type: number
+                  calories:
+                    type: number
+
+  
+
+
+      
+                  
+
+            
