@@ -3,9 +3,12 @@ info:
   version: 1.0.0
   title: Track.io
   description: The API of the Track.io application.
+  contact:
+    name: István Fogti
+    email: fogtiistvan47@gmail.com
 
 servers:
-  - url: https://example.io/v1
+  - url: https://52.90.115.48 
 
 # Basic authentication
 components:
@@ -56,7 +59,29 @@ paths:
                   message:
                     type: string
                   email:
-                    type: string                 
+                    type: string  
+        '422':
+          description: Validation failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string  
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string             
   /login:
     post:
       description: 'Logs user in'
@@ -83,6 +108,28 @@ paths:
                   token:
                     type: string
                   email:
+                    type: string
+        '401':
+          description: Incorrect email or password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
                     type: string
 
 
@@ -191,6 +238,26 @@ paths:
                     type: string
                   startDate:
                     type: number
+        '400':
+          description: The choosen challenge is not existing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /admin/login:
     post:
       description: 'Logs user in'
@@ -218,6 +285,26 @@ paths:
                     type: string
                   email:
                     type: string
+        '403':
+          description: No such admin account found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
 
 
 
@@ -244,6 +331,17 @@ paths:
                     type: string
                   startDate:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /challenges/getCompletedChallenges:
     get:
       security:
@@ -267,7 +365,17 @@ paths:
                     type: string
                   startDate:
                     type: number
-
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
 
 
   /userDetails/all:
@@ -299,6 +407,17 @@ paths:
                     type: number
                   goalWeight:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userDetails/goals:
     get:
       security:
@@ -316,6 +435,17 @@ paths:
                     type: integer
                   goalWeight:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
     put:
       security:
         - bearerAuth: []
@@ -344,6 +474,17 @@ paths:
                     type: integer
                   goalWeight:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userDetails/weight:
     get:
       security:
@@ -363,6 +504,17 @@ paths:
                     type: number
                   date: 
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
     post:
       security:
         - bearerAuth: []
@@ -393,6 +545,17 @@ paths:
                     type: number
                   date: 
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userDetails/birthDate:
     get:
       security:
@@ -408,6 +571,17 @@ paths:
                 properties:
                   birthDate:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userDetails/setHeight:
     post:
       security:
@@ -462,6 +636,17 @@ paths:
                     type: number
                   calories:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userWorkout/lastweek:
     get:
       security:
@@ -489,6 +674,17 @@ paths:
                     type: number
                   calories:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userWorkout/lastmonth:
     get:
       security:
@@ -516,6 +712,17 @@ paths:
                     type: number
                   calories:
                     type: number
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:   
+                  message:
+                    type: string
+                  data:
+                    type: string
   /userWorkout/all:
     get:
       security:

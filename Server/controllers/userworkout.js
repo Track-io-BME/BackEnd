@@ -168,9 +168,6 @@ exports.finishtraining = async (req, res, next)=>{
         }
     }});
 
-    console.log("currentchallenges: ");
-    console.log(currentChallenges);
-
     var lastDaysDistance =  await historyLastxTime(req.user.id, sportType, 1)
                                 .then(val => {
                                     if(val.length === 0) return null;
@@ -191,10 +188,6 @@ exports.finishtraining = async (req, res, next)=>{
                                     return e;
     });
 
-    console.log("lastweeksDistance: " + lastWeeksDistance);
-    console.log("lastDaysDistance: " + lastDaysDistance);
-    console.log("curr challenges ("+ currentChallenges.length +"): ");
-    console.log(currentChallenges);
     const completedChallenges = [];                   
     for(let i of currentChallenges){
         if(i.duration === "WEEKLY"){
@@ -208,8 +201,6 @@ exports.finishtraining = async (req, res, next)=>{
         }
     }
     
-    console.log("completed challenges: ");
-    console.log(completedChallenges.length);
     for(i of completedChallenges){
         const [retval, created] = await UserChallenges.findOrCreate({where: {
             userId: req.user.id,
@@ -229,9 +220,7 @@ exports.finishtraining = async (req, res, next)=>{
 }
 
 function historyLastxTime(id, sportsCategory, time = null) {
-    console.log("func beginning");
     if(time !== null){
-        console.log("func in time is not null");
         var gtTime = new Date();
         gtTime.setDate(gtTime.getDate() - time);
         return SportHistory.findAll({
